@@ -1,0 +1,50 @@
+# ========== GLOBAL ========== #
+*.log
+*.tmp
+*.temp
+*.bak
+*.swp
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+.env
+.env.*
+
+# ============================
+# FRONTEND: Angular 20
+# ============================
+/frontend/node_modules/
+/frontend/dist/
+/frontend/.angular/
+/frontend/out-tsc/
+/frontend/npm-debug.log*
+/frontend/yarn-debug.log*
+/frontend/yarn-error.log*
+/frontend/.env
+/frontend/.env.*
+
+# Optional: if env files contain secrets
+#/frontend/src/environments/environment*.ts
+
+# ============================
+# BACKEND: .NET
+# ============================
+/backend/**/bin/
+/backend/**/obj/
+/backend/**/packages/
+/backend/**/publish/
+/backend/**/TestResults/
+/backend/**/App_Data/
+/backend/**/wwwroot/
+/backend/**/.vs/
+/backend/**/.vscode/
+/backend/**/logs/
+/backend/**/Migrations/
+/backend/.vs/
+/backend/appsettings.json
+/backend/appsettings.Development.json
+/backend/secrets.json
+
+# Optional: if appsettings contain secrets
+#/backend/appsettings.*.json
