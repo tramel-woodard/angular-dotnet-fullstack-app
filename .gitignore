@@ -42,6 +42,8 @@ Thumbs.db
 /backend/**/logs/
 /backend/**/Migrations/
 /backend/.vs/
+/backend/appsettings.json
+/backend/appsettings.Development.json
 /backend/secrets.json
 
 # Optional: if appsettings contain secrets

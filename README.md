@@ -13,3 +13,11 @@ This repository contains a full-stack demo application using Angular 20 (fronten
 
 ## Purpose
 This project is a demonstration of full-stack development skills for portfolio and hiring purposes.
+
+## 📜 License
+This project is licensed under the [MIT License](LICENSE).  
+It is intended for **demonstration and hiring purposes only**. If you're interested in collaborating or discussing professional opportunities, feel free to [contact me](mailto:tramel@mindsect.com).
+
+---
+
+**Note**: Any configuration files containing secrets (e.g., API keys, connection strings) are not included in this repository for security reasons.
