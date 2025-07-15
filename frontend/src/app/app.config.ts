@@ -3,13 +3,14 @@ import { provideRouter } from '@angular/router';
 import { importProvidersFrom } from '@angular/core';
 
 import { routes } from './app.routes';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    importProvidersFrom(HttpClientModule)
+    importProvidersFrom(HttpClientModule),
+    provideHttpClient(withFetch())
   ]
 };
