@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { ProductService } from './services/product.service';
-import { NgForOf } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, NgForOf],
+  imports: [RouterOutlet, RouterLink, RouterLinkActive],
   providers: [],
   templateUrl: './app.html',
   styleUrl: './app.css'
@@ -18,7 +17,7 @@ export class App implements OnInit {
   products: any[] = [];
 
   ngOnInit(): void {
-    this.productService.getProducts().subscribe(data => {
+    this.productService.getAll().subscribe(data => {
       this.products = data;
     })
   }
