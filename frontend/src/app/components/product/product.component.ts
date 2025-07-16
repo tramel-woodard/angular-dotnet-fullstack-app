@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -14,27 +14,28 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product.component.css'
 })
 export class ProductComponent implements OnInit {
-  products: Product[] = [];
-  newProduct: Product = { id: 0, name: '', price: 0 };
+  private productService = inject(ProductService);
 
-  constructor(private productService: ProductService) {}
+  // signals to track state
+  products = signal<Product[]>([]);
+  newProduct = signal<Product>({ id: 0, name: '', price: 0 });
 
   ngOnInit(): void {
     this.loadProducts();  
   }
 
   loadProducts(): void {
-    this.productService.getAll().subscribe(data => this.products = data);
+    this.productService.getAll().subscribe(data => this.products.set(data));
   }
 
-  addProduct() {
-    this.productService.create(this.newProduct).subscribe(() => {
-      this.newProduct = { id: 0, name: '', price: 0 };
+  addProduct(): void {
+    this.productService.create(this.newProduct()).subscribe(() => {
+      this.newProduct.set({ id: 0, name: '', price: 0 });
       this.loadProducts();
     });
   }
 
-  updatedProduct(p: Product): void {
+  updateProduct(p: Product): void {
     this.productService.update(p).subscribe(() => this.loadProducts());
   }
 
