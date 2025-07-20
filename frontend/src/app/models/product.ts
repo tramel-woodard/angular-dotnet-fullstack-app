@@ -1,3 +1,5 @@
+import { AppError } from "../utils/error.util";
+
 export interface Product {
     id: number;
     name: string;
@@ -5,13 +7,13 @@ export interface Product {
 }
 
 export interface ProductState {
-    items: Product[];
+    products: Product[];
     loading: boolean;
-    error: string | null;
+    error: AppError | null;
 }
 
 export const initialProductState: ProductState = {
-    items: [],
+    products: [],
     loading: false,
     error: null
 };

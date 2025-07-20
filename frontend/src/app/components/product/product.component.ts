@@ -1,10 +1,12 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { NgForOf } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
 
 import { Product } from '../../models/product';
-import { ProductService } from '../../services/product.service';
+import { ProductActions } from '../../state/product.actions';
+import * as ProductSelectors from '../../state/product.selectors';
 
 @Component({
   selector: 'app-product',
@@ -14,32 +16,35 @@ import { ProductService } from '../../services/product.service';
   styleUrl: './product.component.css'
 })
 export class ProductComponent implements OnInit {
-  private productService = inject(ProductService);
+  private store = inject(Store);
 
   // signals to track state
   products = signal<Product[]>([]);
   newProduct = signal<Product>({ id: 0, name: '', price: 0 });
 
+  private productsEffect = effect(() => {
+    const products = this.store.selectSignal(ProductSelectors.selectAllProducts)();
+    this.products.set(products);
+  });
+
   ngOnInit(): void {
-    this.loadProducts();  
+    this.loadProducts();
   }
 
   loadProducts(): void {
-    this.productService.getAll().subscribe(data => this.products.set(data));
+    this.store.dispatch(ProductActions.load());
   }
 
   addProduct(): void {
-    this.productService.create(this.newProduct()).subscribe(() => {
-      this.newProduct.set({ id: 0, name: '', price: 0 });
-      this.loadProducts();
-    });
+    this.store.dispatch(ProductActions.add({ product: this.newProduct() }));
+    this.newProduct.set({ id: 0, name: '', price: 0 });
   }
 
   updateProduct(p: Product): void {
-    this.productService.update(p).subscribe(() => this.loadProducts());
+    this.store.dispatch(ProductActions.update({ product: p }));
   }
 
   deleteProduct(id: number): void {
-    this.productService.delete(id).subscribe(() => this.loadProducts());
+    this.store.dispatch(ProductActions.delete({ id }));
   }
 }

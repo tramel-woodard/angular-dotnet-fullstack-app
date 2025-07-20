@@ -12,7 +12,7 @@ export const productsReducer = createReducer(
     })),
     on(ProductActions.loadSuccess, (state, { products }) => ({
         ...state,
-        items: products,
+        products,
         loading: false
     })),
     on(ProductActions.loadFailure, (state, { error }) => ({
@@ -23,7 +23,7 @@ export const productsReducer = createReducer(
 
     on(ProductActions.addSuccess, (state, { product }) => ({
         ...state,
-        items: [...state.items, product]
+        products: [...state.products, product]
     })),
     on(ProductActions.addFailure, (state, { error }) => ({
         ...state,
@@ -33,7 +33,7 @@ export const productsReducer = createReducer(
 
     on(ProductActions.updateSuccess, (state, { product }) => ({
         ...state,
-        items: state.items.map(p => 
+        products: state.products.map(p => 
             (p.id === product.id ? product : p)
         )
     })),
@@ -45,7 +45,7 @@ export const productsReducer = createReducer(
 
     on(ProductActions.deleteSuccess, (state, { id }) => ({
         ...state,
-        items: state.items.filter(p => p.id !== id)
+        products: state.products.filter(p => p.id !== id)
     })),
     on(ProductActions.deleteFailure, (state, { error }) => ({
         ...state,

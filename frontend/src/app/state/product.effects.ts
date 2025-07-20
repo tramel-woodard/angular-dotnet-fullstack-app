@@ -1,15 +1,17 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { catchError, map, mergeMap, of } from 'rxjs';
+import { catchError, map, mergeMap, of, tap } from 'rxjs';
 
 import { ProductService } from '../services/product.service';
 import { ProductActions } from './product.actions';
+import { ToastService } from '../services/toast.service';
 
 @Injectable()
 export class ProductEffects {
     private actions$ = inject(Actions);
     private api = inject(ProductService);
+    private toast = inject(ToastService);
 
     load$ = createEffect(() =>
         this.actions$.pipe(
@@ -57,5 +59,47 @@ export class ProductEffects {
                 )
             )
         )
+    );
+
+    // Success Toasts
+    toastAddSuccess$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(ProductActions.addSuccess),
+                tap(() => this.toast.success('Product added successfully'))
+            ),
+        { dispatch: false }
+    );
+
+    toastUpdateSuccess$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(ProductActions.updateSuccess),
+                tap(() => this.toast.success('Product updated successfully'))
+            ),
+        { dispatch: false }
+    );
+
+    toastDeleteSuccess$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(ProductActions.deleteSuccess),
+                tap(() => this.toast.success('Product deleted successfully'))
+            ),
+        { dispatch: false }
+    );
+
+    // Failure Toast
+    toastFailure$ = createEffect(
+        () =>
+            this.actions$.pipe(
+                ofType(
+                    ProductActions.addFailure,
+                    ProductActions.updateFailure,
+                    ProductActions.deleteFailure
+                ),
+                tap(({ error }) => this.toast.error(error))
+            ),
+        { dispatch: false }
     );
 }

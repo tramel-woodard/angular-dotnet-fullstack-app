@@ -1,19 +1,20 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import { ProductState } from '../models/product';
 
-const selectProductsFeature = createFeatureSelector<ProductState>('products');
+const selectProductsState = createFeatureSelector<ProductState>('products');
 
-export const selectProducts = createSelector(
-    selectProductsFeature,
-    state => state.items
+export const selectAllProducts = createSelector(
+    selectProductsState,
+    state => state.products
 );
 
-export const selectLoading = createSelector(
-    selectProductsFeature,
+export const selectProductLoading = createSelector(
+    selectProductsState,
     state => state.loading
 );
 
-export const selectError = createSelector(
-    selectProductsFeature,
+export const selectProductError = createSelector(
+    selectProductsState,
     state => state.error
 );
